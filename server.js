@@ -1,4 +1,5 @@
 var express = require('express');
+moment = require('moment')
 
 var PORT = process.env.PORT || 3000;
 var app = express();
@@ -12,11 +13,13 @@ io.on('connection', (socket) => {
 
   socket.on('message', (message) => {
     console.log('Message receive: ' + message.text);
+    message.timestamp = moment().valueOf();
     io.emit('message', message);
   });
 
   socket.emit('message', {
-    text: "Welcome to the app chat!"
+    text: "Welcome to the app chat!",
+    timestamp: moment().valueOf()
   });
 });
 

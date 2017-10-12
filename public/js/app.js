@@ -1,3 +1,5 @@
+var name = getQueryVariable('name');
+var room = getQueryVariable('room')
 var socket = io();
 
 socket.on('connect', () => {
@@ -5,10 +7,11 @@ socket.on('connect', () => {
 })
 
 socket.on('message', (message) => {
+  var momentTimestamp = moment.utc(message.timestamp)
   console.log("New message: ");
   console.log(message.text);
 
-  jQuery('.message').append('<p>' + message.text + '</p>');
+  jQuery('.message').append('<p><strong>' + momentTimestamp.local().format('h:mm a') + ': <strong>' + message.text + '</p>');
 })
 
 // Hdndle submit message
